@@ -75,7 +75,7 @@ export function ScreenshotCarousel({
       >
         {images.map((image, index) => (
           <button
-            key={image.src}
+            key={`${index}-${image.src}`}
             type="button"
             ref={(el) => {
               slideRefs.current[index] = el;
@@ -128,7 +128,7 @@ export function ScreenshotCarousel({
         <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {images.map((image, index) => (
             <button
-              key={`thumb-${image.src}`}
+              key={`thumb-${index}`}
               type="button"
               onClick={() => scrollToIndex(index)}
               aria-label={`View screenshot ${index + 1}: ${image.alt}`}

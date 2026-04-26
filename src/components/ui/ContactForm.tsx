@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+const INPUT_CLASSES =
+  'w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-colors duration-300';
+
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -41,7 +44,7 @@ const ContactForm: React.FC = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-colors duration-300"
+            className={INPUT_CLASSES}
             placeholder="John Doe"
           />
         </div>
@@ -56,7 +59,7 @@ const ContactForm: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-colors duration-300"
+            className={INPUT_CLASSES}
             placeholder="john@example.com"
           />
         </div>
@@ -73,7 +76,7 @@ const ContactForm: React.FC = () => {
           value={formData.subject}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-colors duration-300"
+          className={INPUT_CLASSES}
           placeholder="Project Inquiry"
         />
       </div>
@@ -89,7 +92,7 @@ const ContactForm: React.FC = () => {
           onChange={handleChange}
           required
           rows={5}
-          className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-colors duration-300"
+          className={INPUT_CLASSES}
           placeholder="Tell me about your project..."
         ></textarea>
       </div>
