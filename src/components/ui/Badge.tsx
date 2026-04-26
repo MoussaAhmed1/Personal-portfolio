@@ -1,41 +1,28 @@
-import { Code, Users, Award, Star, Zap, Clock } from 'lucide-react';
+import type { IconType } from 'react-icons';
+import { cn } from '@/lib/utils';
 
 interface BadgeProps {
-  icon?: string;
-  text: string;
+  Icon: IconType;
+  color: string;
+  label: string;
   className?: string;
 }
 
-const Badge: React.FC<BadgeProps> = ({ icon, text, className = '' }) => {
-  const getIcon = () => {
-    switch (icon) {
-      case 'Code':
-        return <Code className="h-4 w-4" />;
-      case 'Users':
-        return <Users className="h-4 w-4" />;
-      case 'Award':
-        return <Award className="h-4 w-4" />;
-      case 'Star':
-        return <Star className="h-4 w-4" />;
-      case 'Zap':
-        return <Zap className="h-4 w-4" />;
-      case 'Clock':
-        return <Clock className="h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full ${className}`}>
-      {icon && (
-        <span className="text-emerald-500">
-          {getIcon()}
-        </span>
-      )}
-      <span className="text-sm font-medium text-gray-700">{text}</span>
-    </div>
-  );
-};
+const Badge: React.FC<BadgeProps> = ({ Icon, color, label, className }) => (
+  <div
+    className={cn(
+      'inline-flex items-center gap-3 rounded-full bg-secondary text-secondary-foreground pl-1 pr-5 py-1 border border-border shadow-sm',
+      className,
+    )}
+  >
+    <span
+      className="flex h-9 w-9 items-center justify-center rounded-full"
+      style={{ backgroundColor: `${color}1F` }}
+    >
+      <Icon className="h-5 w-5" style={{ color }} aria-hidden="true" />
+    </span>
+    <span className="text-sm font-medium">{label}</span>
+  </div>
+);
 
 export default Badge;
