@@ -1,6 +1,6 @@
 "use client";
 import ThemeToggle from "../ui/ThemeToggle";
-import { Home, User, Grid3X3, FileText, ImageIcon } from "lucide-react";
+import { Home, User, Grid3X3, ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Header() {
@@ -9,8 +9,7 @@ export default function Header() {
     { icon: Home, label: "Home", href: "#home" },
     { icon: User, label: "About", href: "#about" },
     { icon: Grid3X3, label: "Work", href: "#work" },
-    { icon: FileText, label: "Portfolio", href: "#blog" },
-    { icon: ImageIcon, label: "Contact me", href: "#gallery" },
+    { icon: ImageIcon, label: "Contact me", href: "#contact" },
   ];
 
   return (
