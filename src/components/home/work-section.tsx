@@ -4,23 +4,24 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import PortfolioCard from '@/components/ui/PortfolioCard';
-import { projects } from '@/data/projects';
+import { projects, type ProjectCategory } from '@/data/projects';
 import {
   slideUpWithViewport,
   staggerContainer,
   scaleInWithViewport
 } from '@/lib/animations';
+import { cn } from '@/lib/utils';
 
-type Category = 'all' | 'web' | 'fullstack' | 'other';
+type CategoryFilter = ProjectCategory | 'all';
 
-const categories: { value: Category; label: string }[] = [
+const categories: { value: CategoryFilter; label: string }[] = [
   { value: 'all', label: 'All Projects' },
   { value: 'web', label: 'Web Development' },
   { value: 'fullstack', label: 'Full Stack' },
 ];
 
 export function WorkSection() {
-  const [activeCategory, setActiveCategory] = useState<Category>('all');
+  const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
 
   const filteredProjects = activeCategory === 'all'
     ? projects
@@ -50,13 +51,12 @@ export function WorkSection() {
               type="button"
               onClick={() => setActiveCategory(category.value)}
               suppressHydrationWarning
-              className={`
-                px-6 py-3 rounded-full font-medium transition-all duration-300
-                ${activeCategory === category.value
+              className={cn(
+                'px-6 py-3 rounded-full font-medium transition-all duration-300',
+                activeCategory === category.value
                   ? 'bg-primary text-primary-foreground shadow-lg scale-105'
-                  : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground'
-                }
-              `}
+                  : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground',
+              )}
             >
               {category.label}
             </button>

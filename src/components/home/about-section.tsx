@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Badge from '@/components/ui/Badge';
-import ServiceCard from '@/components/ui/ServiceCard';
 import Timeline from '@/components/ui/Timeline';
 import { workTimeline, educationTimeline } from '@/data/timeline';
 import {
@@ -13,13 +12,7 @@ import {
   scaleInWithViewport
 } from '@/lib/animations';
 import { motion } from 'motion/react';
-import {
-  Palette,
-  Briefcase,
-  GraduationCap,
-  Zap,
-  Download,
-} from 'lucide-react';
+import { Zap, Download } from 'lucide-react';
 import {
   SiReact,
   SiNextdotjs,
@@ -64,27 +57,6 @@ export function AboutSection() {
     { value: '3+', label: 'Years Experience' },
     { value: '20+', label: 'Projects Completed' },
     { value: '15+', label: 'Happy Clients' },
-  ];
-
-  const experiences = [
-    {
-      title: 'Full Stack Developer',
-      description: 'Building modern web applications with React, Next.js, and Node.js. Specializing in creating responsive, accessible, and performant user interfaces.',
-      icon: <Briefcase className="h-6 w-6 text-white" />,
-      colorClass: 'bg-primary-500',
-    },
-    {
-      title: 'UI/UX Enthusiast',
-      description: 'Passionate about crafting beautiful, intuitive user experiences with attention to detail and modern design principles.',
-      icon: <Palette className="h-6 w-6 text-white" />,
-      colorClass: 'bg-purple-500',
-    },
-    {
-      title: 'Continuous Learner',
-      description: 'Always exploring new technologies and best practices to deliver cutting-edge solutions and stay ahead in the ever-evolving tech landscape.',
-      icon: <GraduationCap className="h-6 w-6 text-white" />,
-      colorClass: 'bg-blue-500',
-    },
   ];
 
   return (
@@ -133,7 +105,7 @@ export function AboutSection() {
             </div>
 
             <a
-              href="/Mousa-Ahmed-CV.pdf"
+              href="/cv/Mousa_Ahmed_Frontend_Developer.pdf"
               download
               className="whitebtn inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold tracking-wide uppercase text-sm"
             >
@@ -233,31 +205,6 @@ export function AboutSection() {
         <motion.div className="mb-20" {...slideUpWithViewport}>
           <Timeline work={workTimeline} education={educationTimeline} />
         </motion.div>
-
-        {/* Experience */}
-        {/* <motion.div
-          {...slideUpWithViewport}
-        >
-          <h3 className="text-2xl md:text-3xl font-bold text-center mb-10">
-            What I Do
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {experiences.map((experience, index) => (
-              <motion.div
-                key={index}
-                {...slideInLeftWithViewport}
-                transition={{ delay: index * 0.1 }}
-              >
-                <ServiceCard
-                  title={experience.title}
-                  description={experience.description}
-                  icon={experience.icon}
-                  colorClass={experience.colorClass}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </motion.div> */}
       </div>
     </section>
   );

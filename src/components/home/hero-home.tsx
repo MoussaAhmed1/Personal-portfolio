@@ -1,9 +1,44 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, type Variants, type Transition } from "motion/react";
 import { ArrowRight, Download } from "lucide-react";
 import SocialLinks from "@/components/ui/SocialLinks";
 import { fadeInUp } from "@/lib/animations";
+
+const CTA_BUTTON_VARIANTS: Variants = {
+  rest: { scale: 1 },
+  hover: { scale: 1.03 },
+  tap: { scale: 0.97 },
+};
+
+const CTA_BUTTON_TRANSITION: Transition = {
+  type: "spring",
+  stiffness: 400,
+  damping: 22,
+};
+
+const ARROW_ICON_VARIANTS: Variants = {
+  rest: { x: 0 },
+  hover: { x: 3 },
+};
+
+const ARROW_ICON_TRANSITION: Transition = {
+  type: "spring",
+  stiffness: 400,
+  damping: 18,
+};
+
+const DOWNLOAD_ICON_VARIANTS: Variants = {
+  rest: { y: 0 },
+  hover: {
+    y: [0, 3, 0],
+    transition: {
+      duration: 0.7,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
 
 const HomeHero = () => {
   return (
@@ -52,21 +87,14 @@ const HomeHero = () => {
             whileHover="hover"
             whileTap="tap"
             animate="rest"
-            variants={{
-              rest: { scale: 1 },
-              hover: { scale: 1.03 },
-              tap: { scale: 0.97 },
-            }}
-            transition={{ type: "spring", stiffness: 400, damping: 22 }}
+            variants={CTA_BUTTON_VARIANTS}
+            transition={CTA_BUTTON_TRANSITION}
             className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-6 text-sm md:text-base font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Get in touch
             <motion.span
-              variants={{
-                rest: { x: 0 },
-                hover: { x: 3 },
-              }}
-              transition={{ type: "spring", stiffness: 400, damping: 18 }}
+              variants={ARROW_ICON_VARIANTS}
+              transition={ARROW_ICON_TRANSITION}
               className="inline-flex"
             >
               <ArrowRight className="size-4" aria-hidden="true" />
@@ -74,32 +102,18 @@ const HomeHero = () => {
           </motion.a>
 
           <motion.a
-            href="/Mousa-Ahmed-CV.pdf"
+            href="/cv/Mousa_Ahmed_Frontend_Developer.pdf"
             download
             initial="rest"
             whileHover="hover"
             whileTap="tap"
             animate="rest"
-            variants={{
-              rest: { scale: 1 },
-              hover: { scale: 1.03 },
-              tap: { scale: 0.97 },
-            }}
-            transition={{ type: "spring", stiffness: 400, damping: 22 }}
+            variants={CTA_BUTTON_VARIANTS}
+            transition={CTA_BUTTON_TRANSITION}
             className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-border bg-background px-6 text-sm md:text-base font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <motion.span
-              variants={{
-                rest: { y: 0 },
-                hover: {
-                  y: [0, 3, 0],
-                  transition: {
-                    duration: 0.7,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                },
-              }}
+              variants={DOWNLOAD_ICON_VARIANTS}
               className="inline-flex"
             >
               <Download className="size-4" aria-hidden="true" />

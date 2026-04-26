@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'motion/react';
@@ -16,13 +16,13 @@ interface ProjectDetailsProps {
 
 const categoryLabel: Record<Project['category'], string> = {
   web: 'Web Development',
-  mobile: 'Mobile App',
-  design: 'Design',
+  fullstack: 'Full Stack',
   other: 'Other',
 };
 
 export function ProjectDetails({ project }: ProjectDetailsProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   const screenshots = project.screenshots ?? [];
   const hasActions = Boolean(project.link || project.github);
@@ -181,7 +181,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
         isOpen={lightboxIndex !== null}
         images={screenshots}
         initialIndex={lightboxIndex ?? 0}
-        onClose={() => setLightboxIndex(null)}
+        onClose={closeLightbox}
       />
     </article>
   );
