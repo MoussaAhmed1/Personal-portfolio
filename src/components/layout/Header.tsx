@@ -43,13 +43,13 @@ export default function Header() {
 
       {/* Mobile Navigation - Fixed Bottom */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 max-w-full">
-        <div className="bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/50">
+        <div className="bg-background/95 backdrop-blur-sm border-t border-border">
           <div className="flex items-center justify-around py-3 px-4">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="flex flex-col items-center space-y-1 text-gray-400 hover:text-white transition-colors duration-200 group p-2"
+                className="flex flex-col items-center space-y-1 text-muted-foreground hover:text-foreground transition-colors duration-200 group p-2"
               >
                 <item.icon className="size-4 group-hover:scale-110 transition-transform duration-200" />
               </a>
