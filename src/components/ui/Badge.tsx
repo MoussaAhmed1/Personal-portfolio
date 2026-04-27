@@ -11,7 +11,7 @@ interface BadgeProps {
 const Badge: React.FC<BadgeProps> = ({ Icon, color, label, className }) => (
   <div
     className={cn(
-      'inline-flex items-center gap-3 rounded-full bg-secondary text-secondary-foreground pl-1 pr-5 py-1 border border-border shadow-sm',
+      'inline-flex items-center gap-3 rounded-full bg-secondary text-secondary-foreground ps-1 pe-5 py-1 border border-border shadow-sm',
       className,
     )}
   >

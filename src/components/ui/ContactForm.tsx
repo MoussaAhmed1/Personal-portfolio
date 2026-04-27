@@ -1,41 +1,44 @@
+'use client';
+
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 const INPUT_CLASSES =
   'w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-colors duration-300';
 
 const ContactForm: React.FC = () => {
+  const t = useTranslations('contact.form');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic would go here
     console.log('Form submitted:', formData);
-    alert('Thank you for your message! I will get back to you soon.');
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    alert(t('success'));
+    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-            Full Name
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-foreground mb-2"
+          >
+            {t('name')}
           </label>
           <input
             type="text"
@@ -45,12 +48,15 @@ const ContactForm: React.FC = () => {
             onChange={handleChange}
             required
             className={INPUT_CLASSES}
-            placeholder="John Doe"
+            placeholder={t('namePlaceholder')}
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-            Email Address
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-foreground mb-2"
+          >
+            {t('email')}
           </label>
           <input
             type="email"
@@ -60,14 +66,17 @@ const ContactForm: React.FC = () => {
             onChange={handleChange}
             required
             className={INPUT_CLASSES}
-            placeholder="john@example.com"
+            placeholder={t('emailPlaceholder')}
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
-          Subject
+        <label
+          htmlFor="subject"
+          className="block text-sm font-medium text-foreground mb-2"
+        >
+          {t('subject')}
         </label>
         <input
           type="text"
@@ -77,13 +86,16 @@ const ContactForm: React.FC = () => {
           onChange={handleChange}
           required
           className={INPUT_CLASSES}
-          placeholder="Project Inquiry"
+          placeholder={t('subjectPlaceholder')}
         />
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-          Message
+        <label
+          htmlFor="message"
+          className="block text-sm font-medium text-foreground mb-2"
+        >
+          {t('message')}
         </label>
         <textarea
           id="message"
@@ -93,15 +105,15 @@ const ContactForm: React.FC = () => {
           required
           rows={5}
           className={INPUT_CLASSES}
-          placeholder="Tell me about your project..."
-        ></textarea>
+          placeholder={t('messagePlaceholder')}
+        />
       </div>
 
       <button
         type="submit"
         className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 rounded-lg transition-colors duration-300"
       >
-        Send Message
+        {t('submit')}
       </button>
     </form>
   );

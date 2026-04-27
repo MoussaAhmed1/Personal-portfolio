@@ -1,68 +1,63 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
+import { Mail, MapPin, Clock } from 'lucide-react';
 import ContactForm from '@/components/ui/ContactForm';
 import SocialLinks from '@/components/ui/SocialLinks';
 import {
   slideUpWithViewport,
   slideInLeftWithViewport,
-  slideInRightWithViewport
+  slideInRightWithViewport,
 } from '@/lib/animations';
-import { Mail, MapPin, Clock } from 'lucide-react';
+
+const EMAIL = 'moussa.abdelghany@gmail.com';
 
 export function ContactSection() {
+  const t = useTranslations('contact');
+
   const contactInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'moussa.abdelghany@gmail.com',
-      href: 'mailto:moussa.abdelghany@gmail.com',
-    },
+    { icon: Mail, label: t('labels.email'), value: EMAIL, href: `mailto:${EMAIL}` },
     {
       icon: MapPin,
-      label: 'Location',
-      value: 'Cairo, Egypt',
+      label: t('labels.location'),
+      value: t('labels.locationValue'),
       href: null,
     },
     {
       icon: Clock,
-      label: 'Availability',
-      value: 'Open to opportunities',
+      label: t('labels.availability'),
+      value: t('labels.availabilityValue'),
       href: null,
     },
   ];
 
   return (
-    <section id="contact" className="relative py-20 md:py-32 bg-muted text-foreground">
+    <section
+      id="contact"
+      className="relative py-20 md:py-32 bg-muted text-foreground"
+    >
       <div className="container">
         {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
-          {...slideUpWithViewport}
-        >
+        <motion.div className="text-center mb-16" {...slideUpWithViewport}>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            Let&apos;s Work Together
+            {t('title')}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Have a project in mind? I&apos;d love to hear about it. Drop me a message and let&apos;s create something amazing together.
+            {t('subtitle')}
           </p>
         </motion.div>
 
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Left Column - Contact Info */}
-          <motion.div
-            className="space-y-8"
-            {...slideInLeftWithViewport}
-          >
+          <motion.div className="space-y-8" {...slideInLeftWithViewport}>
             <div>
               <h3 className="text-2xl md:text-3xl font-bold mb-6">
-                Get in Touch
+                {t('infoHeading')}
               </h3>
               <p className="text-lg text-muted-foreground mb-8">
-                I&apos;m currently available for freelance work and full-time opportunities.
-                If you have a project that you want to get started, think you need my help
-                with something, or just fancy saying hey, then get in touch.
+                {t('infoBody')}
               </p>
             </div>
 
@@ -97,7 +92,7 @@ export function ContactSection() {
             {/* Social Links */}
             <div>
               <h4 className="text-lg font-semibold mb-4">
-                Connect with me
+                {t('connectHeading')}
               </h4>
               <SocialLinks />
             </div>
@@ -105,16 +100,16 @@ export function ContactSection() {
             {/* Call to Action */}
             <div className="p-6 rounded-2xl bg-primary/10 border border-primary/20">
               <h4 className="text-lg font-bold mb-2 text-foreground">
-                Looking to hire?
+                {t('ctaCardTitle')}
               </h4>
               <p className="text-sm text-muted-foreground mb-4">
-                I&apos;m open to discussing new opportunities, collaborations, and exciting projects.
+                {t('ctaCardBody')}
               </p>
               <a
-                href="mailto:moussa.abdelghany@gmail.com"
+                href={`mailto:${EMAIL}`}
                 className="inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors"
               >
-                Send me an email
+                {t('emailCta')}
               </a>
             </div>
           </motion.div>
@@ -124,9 +119,7 @@ export function ContactSection() {
             className="bg-card text-card-foreground border border-border rounded-2xl p-8 shadow-xl"
             {...slideInRightWithViewport}
           >
-            <h3 className="text-2xl font-bold mb-6">
-              Send a Message
-            </h3>
+            <h3 className="text-2xl font-bold mb-6">{t('formHeading')}</h3>
             <ContactForm />
           </motion.div>
         </div>

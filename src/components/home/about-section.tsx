@@ -1,17 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Badge from '@/components/ui/Badge';
-import Timeline from '@/components/ui/Timeline';
-import { workTimeline, educationTimeline } from '@/data/timeline';
-import {
-  slideUpWithViewport,
-  staggerContainer,
-  slideInLeftWithViewport,
-  slideInRightWithViewport,
-  scaleInWithViewport
-} from '@/lib/animations';
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 import { Zap, Download } from 'lucide-react';
 import {
   SiReact,
@@ -31,8 +22,20 @@ import {
   SiJest,
   SiFirebase,
 } from 'react-icons/si';
+import Badge from '@/components/ui/Badge';
+import Timeline from '@/components/ui/Timeline';
+import { workTimeline, educationTimeline } from '@/data/timeline';
+import {
+  slideUpWithViewport,
+  staggerContainer,
+  slideInLeftWithViewport,
+  slideInRightWithViewport,
+  scaleInWithViewport,
+} from '@/lib/animations';
 
 export function AboutSection() {
+  const t = useTranslations('about');
+
   const skills = [
     { Icon: SiNextdotjs, color: '#000000', label: 'Next.js' },
     { Icon: SiReact, color: '#61DAFB', label: 'React' },
@@ -54,13 +57,16 @@ export function AboutSection() {
   ];
 
   const stats = [
-    { value: '3+', label: 'Years Experience' },
-    { value: '20+', label: 'Projects Completed' },
-    { value: '15+', label: 'Happy Clients' },
+    { value: '3+', label: t('stats.experience') },
+    { value: '20+', label: t('stats.projects') },
+    { value: '15+', label: t('stats.clients') },
   ];
 
   return (
-    <section id="about" className="relative py-20 md:py-32 bg-muted text-foreground">
+    <section
+      id="about"
+      className="relative py-20 md:py-32 bg-muted text-foreground"
+    >
       <div className="container">
         {/* Image + Bio (two columns on md+, stacked on mobile) */}
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-start mb-20">
@@ -70,12 +76,10 @@ export function AboutSection() {
             {...slideInLeftWithViewport}
           >
             <div className="relative">
-              {/* Soft glow accent behind the avatar */}
               <div
                 aria-hidden
                 className="absolute -inset-4 rounded-full bg-primary/20 blur-2xl opacity-70"
               />
-              {/* Gradient ring frame */}
               <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-[3px] bg-gradient-to-br from-primary via-primary/40 to-transparent shadow-2xl">
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-background">
                   <Image
@@ -88,12 +92,11 @@ export function AboutSection() {
                   />
                 </div>
 
-                {/* Online indicator */}
                 <span
                   role="status"
-                  aria-label="Available for work"
-                  title="Available for work"
-                  className="absolute bottom-16 right-3 md:bottom-20 md:right-4 flex h-3.5 w-3.5 md:h-4 md:w-4"
+                  aria-label={t('availableForWork')}
+                  title={t('availableForWork')}
+                  className="absolute bottom-16 end-3 md:bottom-20 md:end-4 flex h-3.5 w-3.5 md:h-4 md:w-4"
                 >
                   <span
                     aria-hidden
@@ -105,57 +108,27 @@ export function AboutSection() {
             </div>
 
             <a
-              href="/cv/Mousa_Ahmed_Frontend_Developer.pdf"
-              download
+              href="/api/download-cv"
+              download="Mousa_Ahmed_Frontend_Developer.pdf"
               className="whitebtn inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold tracking-wide uppercase text-sm"
             >
               <Download className="w-4 h-4" />
-              Get My Resume
+              {t('downloadCv')}
             </a>
           </motion.div>
 
           {/* Right column: heading + paragraphs */}
-          <motion.div
-            className="max-w-2xl"
-            {...slideInRightWithViewport}
-          >
+          <motion.div className="max-w-2xl" {...slideInRightWithViewport}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
-              Hi! <span className="inline-block">👋</span> I&apos;m{' '}
-              <span className="text-primary">Mousa</span>
+              {t('greeting')} <span className="inline-block">👋</span>{' '}
+              {t('imName')} <span className="text-primary">{t('name')}</span>
             </h2>
 
             <div className="space-y-5 text-base md:text-lg leading-relaxed text-foreground/80">
-              <p>
-                I&apos;m a Frontend Engineer based in Cairo, Egypt, with 3+ years of
-                experience building responsive, intuitive web applications. My
-                primary tool is <strong>Next.js</strong>, with{' '}
-                <strong>Angular</strong> as a strong secondary, and I take pride
-                in turning complex Figma designs into pixel-perfect, performant
-                interfaces.
-              </p>
-
-              <p>
-                I currently build high-performance, scalable apps at{' '}
-                <strong>Smicolon GmbH</strong>, where I work with TypeScript,
-                SSR/SSG, Headless CMS (Strapi), and motion libraries to ship
-                polished products in a Scrum environment. Before that, I spent
-                almost two years at <strong>AlexApps</strong> building real-time
-                dashboards, e-commerce flows, and multi-language apps with
-                React, MUI, and Socket.io.
-              </p>
-
-              <p>
-                On the side, I take on freelance projects — from a Vue-based
-                sales platform with role-based permissions and a loyalty system,
-                to a Next.js dashboard for school pickups in Saudi Arabia with
-                real-time notifications, NextAuth, and i18n.
-              </p>
-
-              <p>
-                I&apos;m driven by clean code, efficient problem-solving, and
-                continuous learning. I care about clear communication, good time
-                management, and shipping work I&apos;d be happy to put my name on.
-              </p>
+              <p>{t('paragraphs.p1')}</p>
+              <p>{t('paragraphs.p2')}</p>
+              <p>{t('paragraphs.p3')}</p>
+              <p>{t('paragraphs.p4')}</p>
             </div>
           </motion.div>
         </div>
@@ -182,12 +155,9 @@ export function AboutSection() {
         </motion.div>
 
         {/* Skills */}
-        <motion.div
-          className="mb-20"
-          {...slideUpWithViewport}
-        >
+        <motion.div className="mb-20" {...slideUpWithViewport}>
           <h3 className="text-2xl md:text-3xl font-bold text-center mb-10">
-            Skills & Technologies
+            {t('skillsTitle')}
           </h3>
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
             {skills.map((skill) => (

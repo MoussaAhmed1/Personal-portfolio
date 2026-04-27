@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { motion, type Variants, type Transition } from "motion/react";
-import { ArrowRight, Download } from "lucide-react";
-import SocialLinks from "@/components/ui/SocialLinks";
-import { fadeInUp } from "@/lib/animations";
+import { motion, type Variants, type Transition } from 'motion/react';
+import { ArrowRight, Download } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import SocialLinks from '@/components/ui/SocialLinks';
+import { fadeInUp } from '@/lib/animations';
 
 const CTA_BUTTON_VARIANTS: Variants = {
   rest: { scale: 1 },
@@ -12,7 +13,7 @@ const CTA_BUTTON_VARIANTS: Variants = {
 };
 
 const CTA_BUTTON_TRANSITION: Transition = {
-  type: "spring",
+  type: 'spring',
   stiffness: 400,
   damping: 22,
 };
@@ -23,7 +24,7 @@ const ARROW_ICON_VARIANTS: Variants = {
 };
 
 const ARROW_ICON_TRANSITION: Transition = {
-  type: "spring",
+  type: 'spring',
   stiffness: 400,
   damping: 18,
 };
@@ -35,14 +36,19 @@ const DOWNLOAD_ICON_VARIANTS: Variants = {
     transition: {
       duration: 0.7,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: 'easeInOut',
     },
   },
 };
 
 const HomeHero = () => {
+  const t = useTranslations('hero');
+
   return (
-    <section id="home" className="relative w-full overflow-hidden pt-20 min-h-[100svh] flex items-center justify-center">
+    <section
+      id="home"
+      className="relative w-full overflow-hidden pt-20 min-h-[100svh] flex items-center justify-center"
+    >
       <div
         aria-hidden="true"
         className="bg-squares pointer-events-none absolute inset-0"
@@ -54,7 +60,7 @@ const HomeHero = () => {
           transition={{ duration: 0.5, delay: 0 }}
           className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl xl:text-6xl/tight max-w-4xl"
         >
-          Do you need a high-performance, scalable web application?
+          {t('title')}
         </motion.h1>
 
         <motion.p
@@ -62,8 +68,7 @@ const HomeHero = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mt-6 max-w-2xl text-lg md:text-xl text-muted-foreground"
         >
-          I&apos;m Mousa — a Frontend Engineer focused on building fast,
-          maintainable, and user-friendly web experiences.
+          {t('subtitle1')}
         </motion.p>
 
         <motion.p
@@ -71,9 +76,7 @@ const HomeHero = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-4 max-w-2xl text-base md:text-lg text-muted-foreground"
         >
-          I specialize in React ecosystems, performance optimization, and clean
-          architecture. I don&apos;t just build interfaces — I focus on how
-          things behave, scale, and feel in real-world usage.
+          {t('subtitle2')}
         </motion.p>
 
         <motion.div
@@ -91,19 +94,19 @@ const HomeHero = () => {
             transition={CTA_BUTTON_TRANSITION}
             className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-6 text-sm md:text-base font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            Get in touch
+            {t('ctaPrimary')}
             <motion.span
               variants={ARROW_ICON_VARIANTS}
               transition={ARROW_ICON_TRANSITION}
               className="inline-flex"
             >
-              <ArrowRight className="size-4" aria-hidden="true" />
+              <ArrowRight className="size-4 rtl:rotate-180" aria-hidden="true" />
             </motion.span>
           </motion.a>
 
           <motion.a
-            href="/cv/Mousa_Ahmed_Frontend_Developer.pdf"
-            download
+            href="/api/download-cv"
+            download="Mousa_Ahmed_Frontend_Developer.pdf"
             initial="rest"
             whileHover="hover"
             whileTap="tap"
@@ -118,7 +121,7 @@ const HomeHero = () => {
             >
               <Download className="size-4" aria-hidden="true" />
             </motion.span>
-            Download CV
+            {t('ctaSecondary')}
           </motion.a>
         </motion.div>
 

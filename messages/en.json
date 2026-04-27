@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "title": "Mousa Ahmed - Full Stack Developer",
+    "titleTemplate": "%s | Mousa Ahmed",
+    "description": "Full Stack Developer specializing in React, Next.js, TypeScript, and modern web technologies. Building exceptional digital experiences with passion and precision.",
+    "keywords": "Full Stack Developer, React, Next.js, TypeScript, Web Development, Frontend Developer, Backend Developer, Mousa Ahmed"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "work": "Work",
+    "contact": "Contact me"
+  },
+  "hero": {
+    "title": "Do you need a high-performance, scalable web application?",
+    "subtitle1": "I'm Mousa — a Frontend Engineer focused on building fast, maintainable, and user-friendly web experiences.",
+    "subtitle2": "I specialize in React ecosystems, performance optimization, and clean architecture. I don't just build interfaces — I focus on how things behave, scale, and feel in real-world usage.",
+    "ctaPrimary": "Get in touch",
+    "ctaSecondary": "Download CV"
+  },
+  "about": {
+    "greeting": "Hi!",
+    "imName": "I'm",
+    "name": "Mousa",
+    "paragraphs": {
+      "p1": "I'm a Frontend Engineer based in Cairo, Egypt, with 3+ years of experience building responsive, intuitive web applications. My primary tool is Next.js, with Angular as a strong secondary, and I take pride in turning complex Figma designs into pixel-perfect, performant interfaces.",
+      "p2": "I currently build high-performance, scalable apps at Smicolon GmbH, where I work with TypeScript, SSR/SSG, Headless CMS (Strapi), and motion libraries to ship polished products in a Scrum environment. Before that, I spent almost two years at AlexApps building real-time dashboards, e-commerce flows, and multi-language apps with React, MUI, and Socket.io.",
+      "p3": "On the side, I take on freelance projects — from a Vue-based sales platform with role-based permissions and a loyalty system, to a Next.js dashboard for school pickups in Saudi Arabia with real-time notifications, NextAuth, and i18n.",
+      "p4": "I'm driven by clean code, efficient problem-solving, and continuous learning. I care about clear communication, good time management, and shipping work I'd be happy to put my name on."
+    },
+    "stats": {
+      "experience": "Years Experience",
+      "projects": "Projects Completed",
+      "clients": "Happy Clients"
+    },
+    "skillsTitle": "Skills & Technologies",
+    "downloadCv": "Get My Resume",
+    "availableForWork": "Available for work"
+  },
+  "work": {
+    "title": "Featured Work",
+    "categories": {
+      "all": "All Projects",
+      "web": "Web Development",
+      "fullstack": "Full Stack"
+    },
+    "empty": "No projects found in this category.",
+    "viewProject": "View {title} project details"
+  },
+  "contact": {
+    "title": "Let's Work Together",
+    "subtitle": "Have a project in mind? I'd love to hear about it. Drop me a message and let's create something amazing together.",
+    "infoHeading": "Get in Touch",
+    "infoBody": "I'm currently available for freelance work and full-time opportunities. If you have a project that you want to get started, think you need my help with something, or just fancy saying hey, then get in touch.",
+    "labels": {
+      "email": "Email",
+      "location": "Location",
+      "locationValue": "Cairo, Egypt",
+      "availability": "Availability",
+      "availabilityValue": "Open to opportunities"
+    },
+    "connectHeading": "Connect with me",
+    "ctaCardTitle": "Looking to hire?",
+    "ctaCardBody": "I'm open to discussing new opportunities, collaborations, and exciting projects.",
+    "emailCta": "Send me an email",
+    "formHeading": "Send a Message",
+    "form": {
+      "name": "Full Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "Project Inquiry",
+      "message": "Message",
+      "messagePlaceholder": "Tell me about your project...",
+      "submit": "Send Message",
+      "success": "Thank you for your message! I will get back to you soon."
+    }
+  },
+  "projectDetail": {
+    "back": "Back to projects",
+    "screenshotsHeading": "Screenshots",
+    "screenshotsHelper": "Click any screenshot to open it full-screen — pinch, scroll, or double-click to zoom.",
+    "role": "Role",
+    "duration": "Duration",
+    "category": "Category",
+    "sourceCode": "Source Code",
+    "liveSite": "Live Site",
+    "technologies": "Technologies",
+    "categoryLabels": {
+      "web": "Web Development",
+      "fullstack": "Full Stack",
+      "other": "Other"
+    },
+    "notFound": "Project not found"
+  },
+  "footer": {
+    "tagline": "Frontend Developer building modern web experiences with Next.js & React.",
+    "copyright": "© {year} Mousa Ahmed · Cairo, Egypt",
+    "scrollToTop": "Scroll to top"
+  },
+  "timeline": {
+    "education": "Education",
+    "work": "Work",
+    "categoryLabel": "Timeline category",
+    "workHistory": "Work history",
+    "educationHistory": "Education history"
+  },
+  "lightbox": {
+    "dialogLabel": "Screenshot {current} of {total}: {alt}",
+    "close": "Close lightbox",
+    "previous": "Previous screenshot",
+    "next": "Next screenshot",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "resetZoom": "Reset zoom",
+    "openInLightbox": "Open {alt} in lightbox",
+    "viewScreenshot": "View screenshot {index}: {alt}"
+  },
+  "themeToggle": {
+    "label": "Toggle theme"
+  },
+  "logo": {
+    "alt": "logo"
+  },
+  "localeSwitcher": {
+    "label": "Change language",
+    "ar": "العربية",
+    "en": "English"
+  }
+}

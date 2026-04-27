@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'motion/react';
+import { useLocale, useTranslations } from 'next-intl';
 import { Briefcase, Calendar, GraduationCap } from 'lucide-react';
 import {
   scaleInWithViewport,
@@ -11,6 +12,8 @@ import {
   staggerContainer,
 } from '@/lib/animations';
 import { cn } from '@/lib/utils';
+import { pickLocale } from '@/data/projects';
+import { type Locale } from '@/i18n/routing';
 import type { TimelineItem } from '@/data/timeline';
 
 type TimelineTab = 'education' | 'work';
@@ -22,31 +25,40 @@ interface TimelineProps {
 
 interface TabConfig {
   id: TimelineTab;
-  label: string;
   Icon: typeof Briefcase;
 }
 
 const TABS: TabConfig[] = [
-  { id: 'education', label: 'Education', Icon: GraduationCap },
-  { id: 'work', label: 'Work', Icon: Briefcase },
+  { id: 'education', Icon: GraduationCap },
+  { id: 'work', Icon: Briefcase },
 ];
 
-function TimelineCard({ item }: { item: TimelineItem }) {
+function TimelineCard({
+  item,
+  locale,
+}: {
+  item: TimelineItem;
+  locale: Locale;
+}) {
   return (
     <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 md:p-6 shadow-lg hover:shadow-xl transition-shadow">
       <h4 className="text-lg md:text-xl font-bold leading-snug">
-        {item.title}
+        {pickLocale(item.title, locale)}
       </h4>
-      <p className="text-primary font-semibold mt-1">{item.organization}</p>
+      <p className="text-primary font-semibold mt-1">
+        {pickLocale(item.organization, locale)}
+      </p>
       <p className="mt-3 inline-flex items-center gap-2 text-sm text-muted-foreground">
         <Calendar className="w-4 h-4" aria-hidden />
-        <span>{item.period}</span>
+        <span>{pickLocale(item.period, locale)}</span>
       </p>
     </div>
   );
 }
 
 function Timeline({ work, education }: TimelineProps) {
+  const t = useTranslations('timeline');
+  const locale = useLocale() as Locale;
   const [activeTab, setActiveTab] = useState<TimelineTab>('work');
   const items = activeTab === 'work' ? work : education;
 
@@ -55,10 +67,10 @@ function Timeline({ work, education }: TimelineProps) {
       {/* Tabs */}
       <div
         role="tablist"
-        aria-label="Timeline category"
+        aria-label={t('categoryLabel')}
         className="flex justify-center items-center gap-8 md:gap-12 mb-12"
       >
-        {TABS.map(({ id, label, Icon }) => {
+        {TABS.map(({ id, Icon }) => {
           const isActive = activeTab === id;
           return (
             <button
@@ -73,11 +85,11 @@ function Timeline({ work, education }: TimelineProps) {
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-md px-2 py-1',
                 isActive
                   ? 'text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
+                  : 'text-muted-foreground hover:text-foreground',
               )}
             >
               <Icon className="w-5 h-5 md:w-6 md:h-6" aria-hidden />
-              <span>{label}</span>
+              <span>{t(id)}</span>
             </button>
           );
         })}
@@ -87,32 +99,37 @@ function Timeline({ work, education }: TimelineProps) {
       <motion.ol
         id={`timeline-panel-${activeTab}`}
         role="tabpanel"
-        aria-label={`${activeTab === 'work' ? 'Work' : 'Education'} history`}
+        aria-label={
+          activeTab === 'work' ? t('workHistory') : t('educationHistory')
+        }
         key={activeTab}
         className="relative"
         {...staggerContainer}
       >
-        {/* Vertical line: left on mobile, centered on md+ */}
+        {/* Vertical line: start on mobile, centered on md+ */}
         <span
           aria-hidden
-          className="absolute top-0 bottom-0 left-2 md:left-1/2 md:-translate-x-1/2 w-px bg-border"
+          className="absolute top-0 bottom-0 start-2 md:start-1/2 md:-translate-x-1/2 rtl:md:translate-x-1/2 w-px bg-border"
         />
 
         {items.map((item, index) => {
           const isLeft = index % 2 === 0;
           return (
-            <li key={`${item.title}-${item.period}`} className="relative">
+            <li
+              key={`${pickLocale(item.title, locale)}-${pickLocale(item.period, locale)}`}
+              className="relative"
+            >
               {/* Dot on the line */}
               <motion.span
                 aria-hidden
-                className="absolute left-2 md:left-1/2 -translate-x-1/2 top-6 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-background"
+                className="absolute start-2 md:start-1/2 -translate-x-1/2 rtl:translate-x-1/2 top-6 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-background"
                 {...scaleInWithViewport}
               />
 
               {/* Mobile layout: single column, content offset right of the line */}
-              <div className="md:hidden pl-10 py-4">
+              <div className="md:hidden ps-10 py-4">
                 <motion.div {...slideUpWithViewport}>
-                  <TimelineCard item={item} />
+                  <TimelineCard item={item} locale={locale} />
                 </motion.div>
               </div>
 
@@ -120,22 +137,16 @@ function Timeline({ work, education }: TimelineProps) {
               <div className="hidden md:grid grid-cols-2 gap-12 py-6">
                 {isLeft ? (
                   <>
-                    <motion.div
-                      className="pr-2"
-                      {...slideInLeftWithViewport}
-                    >
-                      <TimelineCard item={item} />
+                    <motion.div className="pe-2" {...slideInLeftWithViewport}>
+                      <TimelineCard item={item} locale={locale} />
                     </motion.div>
                     <div aria-hidden />
                   </>
                 ) : (
                   <>
                     <div aria-hidden />
-                    <motion.div
-                      className="pl-2"
-                      {...slideInRightWithViewport}
-                    >
-                      <TimelineCard item={item} />
+                    <motion.div className="ps-2" {...slideInRightWithViewport}>
+                      <TimelineCard item={item} locale={locale} />
                     </motion.div>
                   </>
                 )}

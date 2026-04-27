@@ -1,12 +1,19 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 import Logo from '@/components/ui/Logo';
 import SocialLinks from '@/components/ui/SocialLinks';
 import { slideUpWithViewport } from '@/lib/animations';
 import { ArrowUp } from 'lucide-react';
 
-export default function Footer() {
+interface FooterProps {
+  year: number;
+}
+
+export default function Footer({ year }: FooterProps) {
+  const t = useTranslations('footer');
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -18,10 +25,10 @@ export default function Footer() {
           className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6"
           {...slideUpWithViewport}
         >
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-start">
             <Logo />
             <p className="mt-3 text-sm text-muted-foreground max-w-sm">
-              Frontend Developer building modern web experiences with Next.js &amp; React.
+              {t('tagline')}
             </p>
           </div>
           <SocialLinks />
@@ -33,9 +40,7 @@ export default function Footer() {
           className="container py-5 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-muted-foreground"
           {...slideUpWithViewport}
         >
-          <p>
-            &copy; {new Date().getFullYear()} Mousa Ahmed &middot; Cairo, Egypt
-          </p>
+          <p>{t('copyright', { year })}</p>
 
           <div className="flex items-center gap-4">
             <a
@@ -48,7 +53,7 @@ export default function Footer() {
               type="button"
               onClick={scrollToTop}
               className="p-2 rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 group"
-              aria-label="Scroll to top"
+              aria-label={t('scrollToTop')}
             >
               <ArrowUp className="w-4 h-4 group-hover:translate-y-[-2px] transition-transform" />
             </button>

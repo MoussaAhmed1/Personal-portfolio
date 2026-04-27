@@ -3,17 +3,20 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { useTranslations } from 'next-intl';
 import {
   TransformWrapper,
   TransformComponent,
   type ReactZoomPanPinchRef,
 } from 'react-zoom-pan-pinch';
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
-import type { ProjectScreenshot } from '@/data/projects';
+import { type Locale } from '@/i18n/routing';
+import { pickLocale, type ProjectScreenshot } from '@/data/projects';
 
 interface ImageLightboxProps {
   isOpen: boolean;
   images: ProjectScreenshot[];
+  locale: Locale;
   initialIndex: number;
   onClose: () => void;
 }
@@ -21,9 +24,11 @@ interface ImageLightboxProps {
 export function ImageLightbox({
   isOpen,
   images,
+  locale,
   initialIndex,
   onClose,
 }: ImageLightboxProps) {
+  const t = useTranslations('lightbox');
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   const [mounted, setMounted] = useState(false);
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
@@ -75,6 +80,10 @@ export function ImageLightbox({
   const goNext = () => setActiveIndex((i) => (i + 1) % images.length);
 
   const current = images[activeIndex];
+  const currentAlt = current ? pickLocale(current.alt, locale) : '';
+  const currentCaption = current?.caption
+    ? pickLocale(current.caption, locale)
+    : undefined;
 
   return createPortal(
     <AnimatePresence>
@@ -82,7 +91,11 @@ export function ImageLightbox({
         <motion.div
           role="dialog"
           aria-modal="true"
-          aria-label={`Screenshot ${activeIndex + 1} of ${images.length}: ${current.alt}`}
+          aria-label={t('dialogLabel', {
+            current: activeIndex + 1,
+            total: images.length,
+            alt: currentAlt,
+          })}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -96,14 +109,14 @@ export function ImageLightbox({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close lightbox"
-            className="absolute top-4 right-4 z-20 size-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            aria-label={t('close')}
+            className="absolute top-4 end-4 z-20 size-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
           >
             <X className="size-5" />
           </button>
 
           {/* Counter */}
-          <div className="absolute top-4 left-4 z-20 px-3 py-1.5 rounded-full bg-white/10 text-white text-sm font-medium">
+          <div className="absolute top-4 start-4 z-20 px-3 py-1.5 rounded-full bg-white/10 text-white text-sm font-medium">
             {activeIndex + 1} / {images.length}
           </div>
 
@@ -112,10 +125,10 @@ export function ImageLightbox({
             <button
               type="button"
               onClick={goPrev}
-              aria-label="Previous screenshot"
-              className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 size-12 rounded-full bg-white/10 hover:bg-white/20 text-white items-center justify-center transition-colors"
+              aria-label={t('previous')}
+              className="hidden md:flex absolute start-4 top-1/2 -translate-y-1/2 z-20 size-12 rounded-full bg-white/10 hover:bg-white/20 text-white items-center justify-center transition-colors"
             >
-              <ChevronLeft className="size-6" />
+              <ChevronLeft className="size-6 rtl:rotate-180" />
             </button>
           )}
 
@@ -124,10 +137,10 @@ export function ImageLightbox({
             <button
               type="button"
               onClick={goNext}
-              aria-label="Next screenshot"
-              className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 size-12 rounded-full bg-white/10 hover:bg-white/20 text-white items-center justify-center transition-colors"
+              aria-label={t('next')}
+              className="hidden md:flex absolute end-4 top-1/2 -translate-y-1/2 z-20 size-12 rounded-full bg-white/10 hover:bg-white/20 text-white items-center justify-center transition-colors"
             >
-              <ChevronRight className="size-6" />
+              <ChevronRight className="size-6 rtl:rotate-180" />
             </button>
           )}
 
@@ -154,7 +167,7 @@ export function ImageLightbox({
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={current.src}
-                      alt={current.alt}
+                      alt={currentAlt}
                       className="max-w-[95vw] max-h-[80vh] md:max-h-[85vh] object-contain select-none"
                       draggable={false}
                     />
@@ -165,7 +178,7 @@ export function ImageLightbox({
                     <button
                       type="button"
                       onClick={() => zoomOut()}
-                      aria-label="Zoom out"
+                      aria-label={t('zoomOut')}
                       className="size-9 rounded-full text-white hover:bg-white/15 flex items-center justify-center transition-colors"
                     >
                       <ZoomOut className="size-4" />
@@ -173,7 +186,7 @@ export function ImageLightbox({
                     <button
                       type="button"
                       onClick={() => resetTransform()}
-                      aria-label="Reset zoom"
+                      aria-label={t('resetZoom')}
                       className="size-9 rounded-full text-white hover:bg-white/15 flex items-center justify-center transition-colors"
                     >
                       <RotateCcw className="size-4" />
@@ -181,7 +194,7 @@ export function ImageLightbox({
                     <button
                       type="button"
                       onClick={() => zoomIn()}
-                      aria-label="Zoom in"
+                      aria-label={t('zoomIn')}
                       className="size-9 rounded-full text-white hover:bg-white/15 flex items-center justify-center transition-colors"
                     >
                       <ZoomIn className="size-4" />
@@ -194,18 +207,18 @@ export function ImageLightbox({
                         <button
                           type="button"
                           onClick={goPrev}
-                          aria-label="Previous screenshot"
+                          aria-label={t('previous')}
                           className="md:hidden size-9 rounded-full text-white hover:bg-white/15 flex items-center justify-center transition-colors"
                         >
-                          <ChevronLeft className="size-4" />
+                          <ChevronLeft className="size-4 rtl:rotate-180" />
                         </button>
                         <button
                           type="button"
                           onClick={goNext}
-                          aria-label="Next screenshot"
+                          aria-label={t('next')}
                           className="md:hidden size-9 rounded-full text-white hover:bg-white/15 flex items-center justify-center transition-colors"
                         >
-                          <ChevronRight className="size-4" />
+                          <ChevronRight className="size-4 rtl:rotate-180" />
                         </button>
                       </>
                     )}
@@ -216,9 +229,9 @@ export function ImageLightbox({
           </div>
 
           {/* Caption */}
-          {current.caption && (
+          {currentCaption && (
             <div className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-10 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm max-w-[90vw] text-center">
-              {current.caption}
+              {currentCaption}
             </div>
           )}
         </motion.div>
