@@ -69,7 +69,7 @@ export function AboutSection() {
     >
       <div className="container">
         {/* Image + Bio (two columns on md+, stacked on mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-start mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_minmax(0,42rem)] gap-10 md:gap-16 items-start mb-20 mx-auto w-fit">
           {/* Left column: image + resume button */}
           <motion.div
             className="flex flex-col items-center gap-8 md:sticky md:top-24"
@@ -118,7 +118,7 @@ export function AboutSection() {
           </motion.div>
 
           {/* Right column: heading + paragraphs */}
-          <motion.div className="max-w-2xl" {...slideInRightWithViewport}>
+          <motion.div {...slideInRightWithViewport}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
               {t('greeting')} <span className="inline-block">👋</span>{' '}
               {t('imName')} <span className="text-primary">{t('name')}</span>
