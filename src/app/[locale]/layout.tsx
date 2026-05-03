@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 import { Cairo } from 'next/font/google';
+import { Toaster } from 'sonner';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing, type Locale } from '@/i18n/routing';
@@ -10,7 +10,7 @@ import '../globals.css';
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
-  weight: ['400', '500', '600', '700', '900'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-sans',
   display: 'swap',
 });
@@ -95,49 +95,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
       <body className={`${cairo.variable} font-sans antialiased`}>
-        <Script id="strip-fdprocessedid" strategy="beforeInteractive">
-          {`(() => {
-  function stripFdProcessedId(root) {
-    if (!root || root.nodeType !== Node.ELEMENT_NODE) return;
-    if (root.hasAttribute('fdprocessedid')) {
-      root.removeAttribute('fdprocessedid');
-    }
-    root.querySelectorAll('[fdprocessedid]').forEach((element) => {
-      element.removeAttribute('fdprocessedid');
-    });
-  }
-
-  stripFdProcessedId(document.documentElement);
-
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (
-        mutation.type === 'attributes' &&
-        mutation.attributeName === 'fdprocessedid' &&
-        mutation.target instanceof Element
-      ) {
-        mutation.target.removeAttribute('fdprocessedid');
-      }
-
-      mutation.addedNodes.forEach((node) => {
-        if (node instanceof Element) {
-          stripFdProcessedId(node);
-        }
-      });
-    });
-  });
-
-  observer.observe(document.documentElement, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ['fdprocessedid'],
-  });
-})();`}
-        </Script>
         <NextIntlClientProvider>
           <ThemeProvider defaultTheme="system">{children}</ThemeProvider>
         </NextIntlClientProvider>
+        <Toaster richColors dir={dir} />
       </body>
     </html>
   );

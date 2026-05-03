@@ -138,9 +138,9 @@ export function AboutSection() {
           className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20 max-w-4xl mx-auto"
           {...staggerContainer}
         >
-          {stats.map((stat, index) => (
+          {stats.map((stat) => (
             <motion.div
-              key={index}
+              key={stat.value}
               className="bg-card text-card-foreground border border-border rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow"
               {...scaleInWithViewport}
             >
