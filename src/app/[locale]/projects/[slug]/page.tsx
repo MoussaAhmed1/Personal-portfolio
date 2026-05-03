@@ -39,14 +39,14 @@ export async function generateMetadata({
   const description = pickLocale(project.description, typedLocale);
   const ogLocale = locale === 'ar' ? 'ar_EG' : 'en_US';
   const path = `/projects/${project.slug}`;
-  const arHref = path;
-  const enHref = `/en${path}`;
+  const enHref = path;
+  const arHref = `/ar${path}`;
 
   return {
     title,
     description,
     alternates: {
-      canonical: locale === routing.defaultLocale ? arHref : enHref,
+      canonical: locale === routing.defaultLocale ? enHref : arHref,
       languages: {
         ar: arHref,
         en: enHref,

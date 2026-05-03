@@ -50,8 +50,8 @@ export async function generateMetadata({
     alternates: {
       canonical: locale === routing.defaultLocale ? '/' : `/${locale}`,
       languages: {
-        ar: '/',
-        en: '/en',
+        en: '/',
+        ar: '/ar',
       },
     },
     openGraph: {
