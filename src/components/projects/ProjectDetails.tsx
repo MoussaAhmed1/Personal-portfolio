@@ -41,7 +41,7 @@ export function ProjectDetails({ project, locale }: ProjectDetailsProps) {
 
   return (
     <article className="relative py-12 md:py-20 bg-background text-foreground min-h-screen">
-      <div className="container max-w-5xl">
+      <div className="container">
         {/* Back link */}
         <motion.div {...fadeInUp}>
           <Link

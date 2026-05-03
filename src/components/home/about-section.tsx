@@ -135,7 +135,7 @@ export function AboutSection() {
 
         {/* Stats */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20 max-w-4xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20"
           {...staggerContainer}
         >
           {stats.map((stat) => (
@@ -159,7 +159,7 @@ export function AboutSection() {
           <h3 className="text-2xl md:text-3xl font-bold text-center mb-10">
             {t('skillsTitle')}
           </h3>
-          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-3">
             {skills.map((skill) => (
               <Badge
                 key={skill.label}
