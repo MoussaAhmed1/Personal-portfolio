@@ -35,6 +35,12 @@ export function ImageLightbox({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  const focusableCacheRef = useRef<HTMLElement[] | null>(null);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     setMounted(true);
@@ -64,18 +70,21 @@ export function ImageLightbox({
     });
 
     const getFocusable = () => {
+      if (focusableCacheRef.current) return focusableCacheRef.current;
       const root = dialogRef.current;
       if (!root) return [] as HTMLElement[];
-      return Array.from(
+      const list = Array.from(
         root.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])',
         ),
       ).filter((el) => !el.hasAttribute('inert'));
+      focusableCacheRef.current = list;
+      return list;
     };
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key === 'Tab') {
@@ -111,9 +120,10 @@ export function ImageLightbox({
       cancelAnimationFrame(focusCloseFrame);
       window.removeEventListener('keydown', handleKey);
       document.body.style.overflow = original;
+      focusableCacheRef.current = null;
       previouslyFocusedRef.current?.focus();
     };
-  }, [isOpen, images.length, onClose]);
+  }, [isOpen, images.length]);
 
   if (!mounted) return null;
 

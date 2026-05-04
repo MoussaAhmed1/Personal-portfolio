@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
@@ -27,10 +27,22 @@ export function WorkSection() {
   const locale = useLocale() as Locale;
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
 
-  const filteredProjects =
-    activeCategory === 'all'
-      ? projects
-      : projects.filter((project) => project.category === activeCategory);
+  const filteredProjects = useMemo(
+    () =>
+      activeCategory === 'all'
+        ? projects
+        : projects.filter((project) => project.category === activeCategory),
+    [activeCategory],
+  );
+
+  const cardTransitions = useMemo(
+    () =>
+      filteredProjects.map((_, index) => ({
+        ...scaleInWithViewport.transition,
+        delay: index * 0.1,
+      })),
+    [filteredProjects],
+  );
 
   return (
     <section
@@ -84,7 +96,7 @@ export function WorkSection() {
               <motion.li
                 key={project.id}
                 {...scaleInWithViewport}
-                transition={{ delay: index * 0.1 }}
+                transition={cardTransitions[index]}
               >
                 <Link
                   href={`/projects/${project.slug}`}

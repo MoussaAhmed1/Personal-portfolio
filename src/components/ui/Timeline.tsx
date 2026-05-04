@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type KeyboardEvent } from 'react';
+import { useCallback, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { motion } from 'motion/react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Briefcase, Calendar, GraduationCap } from 'lucide-react';
@@ -62,15 +62,24 @@ function Timeline({ work, education }: TimelineProps) {
   const [activeTab, setActiveTab] = useState<TimelineTab>('work');
   const items = activeTab === 'work' ? work : education;
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const tabRefSetters = useMemo(
+    () =>
+      TABS.map(
+        (_, index) => (el: HTMLButtonElement | null) => {
+          tabRefs.current[index] = el;
+        },
+      ),
+    [],
+  );
   const isRtl = locale === 'ar';
 
-  const focusTabAt = (index: number) => {
+  const focusTabAt = useCallback((index: number) => {
     const next = (index + TABS.length) % TABS.length;
     const button = tabRefs.current[next];
     if (!button) return;
     setActiveTab(TABS[next].id);
     button.focus();
-  };
+  }, []);
 
   const handleTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
     switch (e.key) {
@@ -110,9 +119,7 @@ function Timeline({ work, education }: TimelineProps) {
           return (
             <button
               key={id}
-              ref={(el) => {
-                tabRefs.current[index] = el;
-              }}
+              ref={tabRefSetters[index]}
               type="button"
               role="tab"
               id={`timeline-tab-${id}`}
@@ -137,7 +144,7 @@ function Timeline({ work, education }: TimelineProps) {
       </div>
 
       {/* Timeline body */}
-      <div className="relative" key={activeTab}>
+      <div className="relative">
         {/* Vertical line: start on mobile, centered on md+ */}
         <span
           aria-hidden="true"
@@ -145,6 +152,7 @@ function Timeline({ work, education }: TimelineProps) {
         />
 
         <motion.ol
+          key={activeTab}
           id={`timeline-panel-${activeTab}`}
           role="tabpanel"
           aria-labelledby={`timeline-tab-${activeTab}`}

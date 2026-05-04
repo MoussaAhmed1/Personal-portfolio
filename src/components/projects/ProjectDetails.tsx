@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
@@ -10,7 +11,12 @@ import { type Locale } from '@/i18n/routing';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { pickLocale, type Project } from '@/data/projects';
 import { ScreenshotCarousel } from '@/components/projects/ScreenshotCarousel';
-import { ImageLightbox } from '@/components/projects/ImageLightbox';
+
+const ImageLightbox = dynamic(
+  () =>
+    import('@/components/projects/ImageLightbox').then((m) => m.ImageLightbox),
+  { ssr: false },
+);
 
 interface ProjectDetailsProps {
   project: Project;
@@ -20,6 +26,11 @@ interface ProjectDetailsProps {
 export function ProjectDetails({ project, locale }: ProjectDetailsProps) {
   const t = useTranslations('projectDetail');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [lightboxMounted, setLightboxMounted] = useState(false);
+  const openLightbox = useCallback((index: number) => {
+    setLightboxIndex(index);
+    setLightboxMounted(true);
+  }, []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   const screenshots = project.screenshots ?? [];
@@ -176,7 +187,7 @@ export function ProjectDetails({ project, locale }: ProjectDetailsProps) {
             <ScreenshotCarousel
               images={screenshots}
               locale={locale}
-              onImageClick={setLightboxIndex}
+              onImageClick={openLightbox}
             />
             <p className="mt-3 text-xs text-muted-foreground">
               {t('screenshotsHelper')}
@@ -185,13 +196,15 @@ export function ProjectDetails({ project, locale }: ProjectDetailsProps) {
         )}
       </div>
 
-      <ImageLightbox
-        isOpen={lightboxIndex !== null}
-        images={screenshots}
-        locale={locale}
-        initialIndex={lightboxIndex ?? 0}
-        onClose={closeLightbox}
-      />
+      {lightboxMounted && (
+        <ImageLightbox
+          isOpen={lightboxIndex !== null}
+          images={screenshots}
+          locale={locale}
+          initialIndex={lightboxIndex ?? 0}
+          onClose={closeLightbox}
+        />
+      )}
     </article>
   );
 }
