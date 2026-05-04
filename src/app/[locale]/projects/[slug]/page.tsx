@@ -74,7 +74,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <Header />
-      <main className="relative">
+      <main className="relative pb-20 md:pb-0">
         <ProjectDetails project={project} locale={locale as Locale} />
       </main>
       <Footer year={currentYear} />

@@ -62,11 +62,11 @@ export function ContactSection() {
             </div>
 
             {/* Contact Details */}
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => (
-                <div key={index} className="flex items-start gap-4">
+            <ul className="space-y-6 list-none p-0">
+              {contactInfo.map((info) => (
+                <li key={info.label} className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <info.icon className="w-6 h-6 text-primary" />
+                    <info.icon aria-hidden="true" className="w-6 h-6 text-primary" />
                   </div>
                   <div>
                     <div className="text-sm font-medium text-muted-foreground mb-1">
@@ -75,7 +75,7 @@ export function ContactSection() {
                     {info.href ? (
                       <a
                         href={info.href}
-                        className="text-lg font-semibold text-foreground hover:text-primary transition-colors"
+                        className="text-lg font-semibold text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
                       >
                         {info.value}
                       </a>
@@ -85,9 +85,9 @@ export function ContactSection() {
                       </div>
                     )}
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
 
             {/* Social Links */}
             <div>

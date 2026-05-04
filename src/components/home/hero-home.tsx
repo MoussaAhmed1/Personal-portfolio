@@ -107,6 +107,7 @@ const HomeHero = () => {
           <motion.a
             href="/api/download-cv"
             download="Mousa_Ahmed_Frontend_Developer.pdf"
+            aria-label={t('ctaSecondaryAria')}
             initial="rest"
             whileHover="hover"
             whileTap="tap"

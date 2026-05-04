@@ -24,7 +24,7 @@ const ThemeToggle: React.FC = () => {
         type="button"
         disabled
         aria-label={t('label')}
-        className="p-2 rounded-full transition-colors flex items-center justify-center opacity-0"
+        className="relative size-11 rounded-full transition-colors flex items-center justify-center opacity-0"
       >
         <Sun className="size-4 xl:size-5" />
       </button>
@@ -35,7 +35,7 @@ const ThemeToggle: React.FC = () => {
     <button
       type="button"
       onClick={toggleTheme}
-      className="p-2 rounded-full transition-colors flex items-center justify-center"
+      className="relative size-11 rounded-full transition-colors flex items-center justify-center hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       aria-label={t('label')}
     >
       <Sun className="text-foreground absolute size-4 scale-100 rotate-0 transform text-2xl opacity-100 transition-all duration-300 ease-in-out xl:size-5 dark:scale-0 dark:-rotate-90 dark:opacity-0" />

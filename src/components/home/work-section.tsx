@@ -47,35 +47,41 @@ export function WorkSection() {
 
         {/* Category Filter */}
         <motion.div
+          role="group"
+          aria-label={t('title')}
           className="flex flex-wrap justify-center gap-3 mb-12"
           {...slideUpWithViewport}
         >
-          {CATEGORY_VALUES.map((value) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => setActiveCategory(value)}
-              className={cn(
-                'px-6 py-3 rounded-full font-medium transition-all duration-300',
-                activeCategory === value
-                  ? 'bg-primary text-primary-foreground shadow-lg scale-105'
-                  : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground',
-              )}
-            >
-              {t(`categories.${value}`)}
-            </button>
-          ))}
+          {CATEGORY_VALUES.map((value) => {
+            const isActive = activeCategory === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setActiveCategory(value)}
+                aria-pressed={isActive}
+                className={cn(
+                  'px-6 py-3 rounded-full font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                  isActive
+                    ? 'bg-primary text-primary-foreground shadow-lg scale-105'
+                    : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground',
+                )}
+              >
+                {t(`categories.${value}`)}
+              </button>
+            );
+          })}
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        <motion.ul
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 list-none p-0"
           {...staggerContainer}
         >
           {filteredProjects.map((project, index) => {
             const title = pickLocale(project.title, locale);
             return (
-              <motion.div
+              <motion.li
                 key={project.id}
                 {...scaleInWithViewport}
                 transition={{ delay: index * 0.1 }}
@@ -83,7 +89,7 @@ export function WorkSection() {
                 <Link
                   href={`/projects/${project.slug}`}
                   aria-label={t('viewProject', { title })}
-                  className="block focus:outline-none focus:ring-2 focus:ring-primary rounded-xl"
+                  className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-xl"
                 >
                   <PortfolioCard
                     title={title}
@@ -91,10 +97,10 @@ export function WorkSection() {
                     tags={project.tags}
                   />
                 </Link>
-              </motion.div>
+              </motion.li>
             );
           })}
-        </motion.div>
+        </motion.ul>
 
         {/* Empty State */}
         {filteredProjects.length === 0 && (

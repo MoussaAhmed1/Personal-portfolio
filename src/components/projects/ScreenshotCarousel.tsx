@@ -72,7 +72,12 @@ export function ScreenshotCarousel({
   if (images.length === 0) return null;
 
   return (
-    <div className="relative">
+    <div
+      role="region"
+      aria-roledescription={t('carousel')}
+      aria-label={t('carouselLabel')}
+      className="relative"
+    >
       {/* Track */}
       <div
         ref={trackRef}
@@ -89,7 +94,7 @@ export function ScreenshotCarousel({
               }}
               onClick={() => onImageClick(index)}
               aria-label={t('openInLightbox', { alt })}
-              className="group relative shrink-0 snap-center w-full md:w-[80%] lg:w-[70%] aspect-video rounded-xl overflow-hidden bg-secondary border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+              className="group relative shrink-0 snap-center w-full md:w-[80%] lg:w-[70%] aspect-video rounded-xl overflow-hidden bg-secondary border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <Image
                 src={image.src}
@@ -145,6 +150,7 @@ export function ScreenshotCarousel({
                 aria-current={index === activeIndex}
                 className={cn(
                   'relative shrink-0 w-20 h-14 sm:w-24 sm:h-16 rounded-md overflow-hidden border-2 transition-all',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                   index === activeIndex
                     ? 'border-primary opacity-100 scale-105'
                     : 'border-transparent opacity-60 hover:opacity-100',

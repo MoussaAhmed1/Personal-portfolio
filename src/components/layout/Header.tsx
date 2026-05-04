@@ -5,6 +5,21 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher';
 import { cn } from '@/lib/utils';
 
+const focusSection = (hash: string) => {
+  const id = hash.replace('#', '');
+  if (!id) return;
+  const target = document.getElementById(id);
+  if (!target) return;
+  const previousTabIndex = target.getAttribute('tabindex');
+  if (previousTabIndex === null) target.setAttribute('tabindex', '-1');
+  target.focus({ preventScroll: true });
+  const cleanup = () => {
+    if (previousTabIndex === null) target.removeAttribute('tabindex');
+    target.removeEventListener('blur', cleanup);
+  };
+  target.addEventListener('blur', cleanup);
+};
+
 export default function Header() {
   const t = useTranslations('nav');
 
@@ -16,9 +31,10 @@ export default function Header() {
   ];
 
   return (
-    <header className="overflow-hidden">
+    <header>
       {/* Desktop Navigation - Fixed Top */}
       <nav
+        aria-label={t('primaryLabel')}
         className={cn(
           'hidden md:flex fixed top-0 left-1/2 -translate-x-1/2 z-50 mt-4',
         )}
@@ -33,9 +49,13 @@ export default function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-2 transition-colors duration-200 group"
+                onClick={() => focusSection(item.href)}
+                className="flex items-center gap-2 transition-colors duration-200 group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <item.icon className="w-5 h-5 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+                <item.icon
+                  aria-hidden="true"
+                  className="w-5 h-5 group-hover:scale-110 transition-transform duration-200 shrink-0"
+                />
                 <span className="text-sm font-medium w-fit text-nowrap">
                   {item.label}
                 </span>
@@ -48,17 +68,24 @@ export default function Header() {
       </nav>
 
       {/* Mobile Navigation - Fixed Bottom */}
-      <nav className="md:hidden fixed bottom-0 start-0 end-0 z-50 max-w-full">
+      <nav
+        aria-label={t('mobilePrimaryLabel')}
+        className="md:hidden fixed bottom-0 start-0 end-0 z-50 max-w-full"
+      >
         <div className="bg-background/95 backdrop-blur-sm border-t border-border">
-          <div className="flex items-center justify-around py-3 px-4">
+          <div className="flex items-center justify-around py-1 px-2">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 aria-label={item.label}
-                className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors duration-200 group p-2"
+                onClick={() => focusSection(item.href)}
+                className="flex flex-col items-center justify-center gap-1 min-h-11 min-w-11 px-3 text-muted-foreground hover:text-foreground transition-colors duration-200 group rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <item.icon className="size-4 group-hover:scale-110 transition-transform duration-200" />
+                <item.icon
+                  aria-hidden="true"
+                  className="size-5 group-hover:scale-110 transition-transform duration-200"
+                />
               </a>
             ))}
             <LocaleSwitcher />

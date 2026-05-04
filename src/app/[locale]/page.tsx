@@ -22,7 +22,7 @@ export default async function Home({ params }: HomePageProps) {
   return (
     <>
       <Header />
-      <main className="relative">
+      <main className="relative pb-20 md:pb-0">
         <HomeHero />
         <AboutSection />
         <WorkSection />

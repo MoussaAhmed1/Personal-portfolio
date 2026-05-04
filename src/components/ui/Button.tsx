@@ -1,41 +1,50 @@
-interface ButtonProps {
+import { cn } from '@/lib/utils';
+
+type Variant = 'primary' | 'secondary' | 'outline';
+type Size = 'sm' | 'md' | 'lg';
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  onClick?: () => void;
+  variant?: Variant;
+  size?: Size;
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
 }
+
+const VARIANT_STYLES: Record<Variant, string> = {
+  primary:
+    'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring',
+  secondary:
+    'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring',
+  outline:
+    'bg-transparent border border-border text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring',
+};
+
+const SIZE_STYLES: Record<Size, string> = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-5 py-2 text-base',
+  lg: 'px-6 py-3 text-lg',
+};
 
 const Button: React.FC<ButtonProps> = ({
   children,
   variant = 'primary',
   size = 'md',
-  className = '',
-  onClick,
+  className,
+  type = 'button',
   icon,
   iconPosition = 'left',
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 border-2 border-black';
-  
-  const variantStyles = {
-    primary: 'bg-[#d8f768] text-black hover:from-emerald-600 hover:to-emerald-500 focus:ring-emerald-500',
-    secondary: 'bg-yellow-400 text-gray-900 hover:bg-yellow-500 focus:ring-yellow-500',
-    outline: 'bg-transparent border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-50 focus:ring-emerald-500',
-  };
-  
-  const sizeStyles = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-5 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
-  };
-  
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
-      onClick={onClick}
+      type={type}
+      className={cn(
+        'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-60 disabled:cursor-not-allowed',
+        VARIANT_STYLES[variant],
+        SIZE_STYLES[size],
+        className,
+      )}
       {...props}
     >
       {iconPosition === 'left' && icon}

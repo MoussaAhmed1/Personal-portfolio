@@ -34,8 +34,9 @@ export default function LocaleSwitcher({ className }: LocaleSwitcherProps) {
       disabled={isPending}
       aria-label={t('label')}
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors',
+        'inline-flex items-center justify-center gap-1.5 rounded-full px-3 min-h-11 min-w-11 md:min-h-9 md:min-w-9 text-xs font-semibold transition-colors',
         'text-foreground/80 hover:text-foreground hover:bg-secondary',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         'disabled:opacity-60',
         className,
       )}

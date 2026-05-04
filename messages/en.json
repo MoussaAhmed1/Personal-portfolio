@@ -9,14 +9,17 @@
     "home": "Home",
     "about": "About",
     "work": "Work",
-    "contact": "Contact me"
+    "contact": "Contact me",
+    "primaryLabel": "Primary",
+    "mobilePrimaryLabel": "Mobile primary"
   },
   "hero": {
     "title": "Do you need a high-performance, scalable web application?",
     "subtitle1": "I'm Mousa — a Frontend Engineer focused on building fast, maintainable, and user-friendly web experiences.",
     "subtitle2": "I specialize in React ecosystems, performance optimization, and clean architecture. I don't just build interfaces — I focus on how things behave, scale, and feel in real-world usage.",
     "ctaPrimary": "Get in touch",
-    "ctaSecondary": "Download CV"
+    "ctaSecondary": "Download CV",
+    "ctaSecondaryAria": "Download CV (PDF)"
   },
   "about": {
     "greeting": "Hi!",
@@ -35,6 +38,7 @@
     },
     "skillsTitle": "Skills & Technologies",
     "downloadCv": "Get My Resume",
+    "downloadCvAria": "Download CV (PDF)",
     "availableForWork": "Available for work"
   },
   "work": {
@@ -76,7 +80,11 @@
       "submit": "Send Message",
       "sending": "Sending...",
       "success": "Thank you for your message! I will get back to you soon.",
-      "error": "Something went wrong. Please try again."
+      "error": "Something went wrong. Please try again.",
+      "errors": {
+        "required": "This field is required.",
+        "invalidEmail": "Please enter a valid email address."
+      }
     }
   },
   "projectDetail": {
@@ -117,7 +125,9 @@
     "zoomOut": "Zoom out",
     "resetZoom": "Reset zoom",
     "openInLightbox": "Open {alt} in lightbox",
-    "viewScreenshot": "View screenshot {index}: {alt}"
+    "viewScreenshot": "View screenshot {index}: {alt}",
+    "carouselLabel": "Project screenshots",
+    "carousel": "carousel"
   },
   "themeToggle": {
     "label": "Toggle theme"

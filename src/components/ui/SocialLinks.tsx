@@ -17,7 +17,7 @@ export default function SocialLinks() {
             aria-label={item.alt}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 border border-border bg-background rounded-full flex items-center justify-center p-2 transition-colors hover:bg-accent hover:border-foreground/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="size-11 sm:size-10 border border-border bg-background rounded-full flex items-center justify-center p-2 transition-colors hover:bg-accent hover:border-foreground/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <Image
               src={item.src}

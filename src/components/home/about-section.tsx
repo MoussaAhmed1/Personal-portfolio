@@ -69,7 +69,7 @@ export function AboutSection() {
     >
       <div className="container">
         {/* Image + Bio (two columns on md+, stacked on mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-[auto_minmax(0,42rem)] gap-10 md:gap-16 items-start mb-20 mx-auto w-fit">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_minmax(0,42rem)] gap-10 md:gap-16 items-start mb-20 mx-auto w-fit max-w-full">
           {/* Left column: image + resume button */}
           <motion.div
             className="flex flex-col items-center gap-8 md:sticky md:top-24"
@@ -80,7 +80,7 @@ export function AboutSection() {
                 aria-hidden
                 className="absolute -inset-4 rounded-full bg-primary/20 blur-2xl opacity-70"
               />
-              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-[3px] bg-gradient-to-br from-primary via-primary/40 to-transparent shadow-2xl">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 max-w-full rounded-full p-[3px] bg-gradient-to-br from-primary via-primary/40 to-transparent shadow-2xl">
                 <div className="relative w-full h-full rounded-full overflow-hidden bg-background">
                   <Image
                     src="/images/Mousa.png"
@@ -110,9 +110,10 @@ export function AboutSection() {
             <a
               href="/api/download-cv"
               download="Mousa_Ahmed_Frontend_Developer.pdf"
-              className="whitebtn inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold tracking-wide uppercase text-sm"
+              aria-label={t('downloadCvAria')}
+              className="whitebtn inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold tracking-wide uppercase text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <Download className="w-4 h-4" />
+              <Download aria-hidden="true" className="w-4 h-4" />
               {t('downloadCv')}
             </a>
           </motion.div>
@@ -120,7 +121,10 @@ export function AboutSection() {
           {/* Right column: heading + paragraphs */}
           <motion.div {...slideInRightWithViewport}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
-              {t('greeting')} <span className="inline-block">👋</span>{' '}
+              {t('greeting')}{' '}
+              <span aria-hidden="true" className="inline-block">
+                👋
+              </span>{' '}
               {t('imName')} <span className="text-primary">{t('name')}</span>
             </h2>
 
@@ -134,12 +138,12 @@ export function AboutSection() {
         </div>
 
         {/* Stats */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20"
+        <motion.ul
+          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20 list-none p-0"
           {...staggerContainer}
         >
           {stats.map((stat) => (
-            <motion.div
+            <motion.li
               key={stat.value}
               className="bg-card text-card-foreground border border-border rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow"
               {...scaleInWithViewport}
@@ -150,25 +154,32 @@ export function AboutSection() {
               <div className="text-sm md:text-base text-muted-foreground font-medium">
                 {stat.label}
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-        </motion.div>
+        </motion.ul>
 
         {/* Skills */}
         <motion.div className="mb-20" {...slideUpWithViewport}>
-          <h3 className="text-2xl md:text-3xl font-bold text-center mb-10">
+          <h3
+            id="skills-heading"
+            className="text-2xl md:text-3xl font-bold text-center mb-10"
+          >
             {t('skillsTitle')}
           </h3>
-          <div className="flex flex-wrap justify-center gap-3">
+          <ul
+            aria-labelledby="skills-heading"
+            className="flex flex-wrap justify-center gap-3 list-none p-0"
+          >
             {skills.map((skill) => (
-              <Badge
-                key={skill.label}
-                Icon={skill.Icon}
-                color={skill.color}
-                label={skill.label}
-              />
+              <li key={skill.label}>
+                <Badge
+                  Icon={skill.Icon}
+                  color={skill.color}
+                  label={skill.label}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         </motion.div>
 
         {/* Education & Work Timeline */}

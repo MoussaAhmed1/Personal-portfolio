@@ -32,6 +32,9 @@ export function ImageLightbox({
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   const [mounted, setMounted] = useState(false);
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -48,12 +51,49 @@ export function ImageLightbox({
   useEffect(() => {
     if (!isOpen) return;
 
+    previouslyFocusedRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
     const original = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+
+    const focusCloseFrame = requestAnimationFrame(() => {
+      closeButtonRef.current?.focus();
+    });
+
+    const getFocusable = () => {
+      const root = dialogRef.current;
+      if (!root) return [] as HTMLElement[];
+      return Array.from(
+        root.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])',
+        ),
+      ).filter((el) => !el.hasAttribute('inert'));
+    };
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const focusable = getFocusable();
+        if (focusable.length === 0) {
+          e.preventDefault();
+          return;
+        }
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+        if (e.shiftKey && (active === first || !dialogRef.current?.contains(active))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+        }
         return;
       }
       const scale = transformRef.current?.state.scale ?? 1;
@@ -68,8 +108,10 @@ export function ImageLightbox({
 
     window.addEventListener('keydown', handleKey);
     return () => {
+      cancelAnimationFrame(focusCloseFrame);
       window.removeEventListener('keydown', handleKey);
       document.body.style.overflow = original;
+      previouslyFocusedRef.current?.focus();
     };
   }, [isOpen, images.length, onClose]);
 
@@ -89,6 +131,7 @@ export function ImageLightbox({
     <AnimatePresence>
       {isOpen && current && (
         <motion.div
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-label={t('dialogLabel', {
@@ -107,10 +150,11 @@ export function ImageLightbox({
         >
           {/* Close button */}
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
             aria-label={t('close')}
-            className="absolute top-4 end-4 z-20 size-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            className="absolute top-4 end-4 z-20 size-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <X className="size-5" />
           </button>

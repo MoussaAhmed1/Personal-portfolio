@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState, type KeyboardEvent } from 'react';
 import { motion } from 'motion/react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Briefcase, Calendar, GraduationCap } from 'lucide-react';
@@ -61,6 +61,41 @@ function Timeline({ work, education }: TimelineProps) {
   const locale = useLocale() as Locale;
   const [activeTab, setActiveTab] = useState<TimelineTab>('work');
   const items = activeTab === 'work' ? work : education;
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const isRtl = locale === 'ar';
+
+  const focusTabAt = (index: number) => {
+    const next = (index + TABS.length) % TABS.length;
+    const button = tabRefs.current[next];
+    if (!button) return;
+    setActiveTab(TABS[next].id);
+    button.focus();
+  };
+
+  const handleTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    switch (e.key) {
+      case 'ArrowRight': {
+        e.preventDefault();
+        focusTabAt(index + (isRtl ? -1 : 1));
+        break;
+      }
+      case 'ArrowLeft': {
+        e.preventDefault();
+        focusTabAt(index + (isRtl ? 1 : -1));
+        break;
+      }
+      case 'Home': {
+        e.preventDefault();
+        focusTabAt(0);
+        break;
+      }
+      case 'End': {
+        e.preventDefault();
+        focusTabAt(TABS.length - 1);
+        break;
+      }
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -70,16 +105,22 @@ function Timeline({ work, education }: TimelineProps) {
         aria-label={t('categoryLabel')}
         className="flex justify-center items-center gap-8 md:gap-12 mb-12"
       >
-        {TABS.map(({ id, Icon }) => {
+        {TABS.map(({ id, Icon }, index) => {
           const isActive = activeTab === id;
           return (
             <button
               key={id}
+              ref={(el) => {
+                tabRefs.current[index] = el;
+              }}
               type="button"
               role="tab"
+              id={`timeline-tab-${id}`}
               aria-selected={isActive}
               aria-controls={`timeline-panel-${id}`}
+              tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveTab(id)}
+              onKeyDown={(e) => handleTabKeyDown(e, index)}
               className={cn(
                 'inline-flex items-center gap-2 text-lg md:text-xl font-semibold transition-colors cursor-pointer',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-md px-2 py-1',
@@ -96,22 +137,21 @@ function Timeline({ work, education }: TimelineProps) {
       </div>
 
       {/* Timeline body */}
-      <motion.ol
-        id={`timeline-panel-${activeTab}`}
-        role="tabpanel"
-        aria-label={
-          activeTab === 'work' ? t('workHistory') : t('educationHistory')
-        }
-        key={activeTab}
-        className="relative"
-        {...staggerContainer}
-      >
+      <div className="relative" key={activeTab}>
         {/* Vertical line: start on mobile, centered on md+ */}
         <span
-          aria-hidden
-          className="absolute top-0 bottom-0 start-2 md:start-1/2 md:-translate-x-1/2 rtl:md:translate-x-1/2 w-px bg-border"
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 bottom-0 start-2 md:start-1/2 md:-translate-x-1/2 rtl:md:translate-x-1/2 w-px bg-border"
         />
 
+        <motion.ol
+          id={`timeline-panel-${activeTab}`}
+          role="tabpanel"
+          aria-labelledby={`timeline-tab-${activeTab}`}
+          tabIndex={0}
+          className="relative list-none p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-md"
+          {...staggerContainer}
+        >
         {items.map((item, index) => {
           const isLeft = index % 2 === 0;
           return (
@@ -154,7 +194,8 @@ function Timeline({ work, education }: TimelineProps) {
             </li>
           );
         })}
-      </motion.ol>
+        </motion.ol>
+      </div>
     </div>
   );
 }
